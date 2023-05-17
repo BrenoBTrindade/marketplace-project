@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Products from '../database/models/products';
 import { Optional } from 'sequelize';
+import Iproducts from '../interfaces/Iproducts';
 
 export default class ProductService  {
-
     public async create(data: Optional<any, string>): Promise<Products> {
         const product = await Products.findOne({
             where: {
@@ -65,6 +65,31 @@ export default class ProductService  {
         } catch (error: Error | any | unknown) {
             console.error('Message Error:', error.message)
             throw error;
+        }
+    }
+
+    public async updateProduct(obj: Iproducts) {
+        const product = await Products.findOne({
+            where: {
+                id: obj.id
+            }
+        });
+
+        if(!product) {
+            throw new Error('Produto informado não cadastrado!')
+        }
+
+        try {
+            product.name = obj.name
+            product.description = obj.description
+            product.price = obj.price
+
+            await product.save()
+
+            return await product.reload()
+        }catch(error: Error | any | unknown ) {
+            console.error('Message error: ', error.message)
+            throw error
         }
     }
 }
