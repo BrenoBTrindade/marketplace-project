@@ -43,6 +43,29 @@ export default class ProductService  {
         }
 
         return produto;
-    } 
+    }
+
+    public async deleteById(id: number):Promise<void> {
+        const product = await Products.findOne({
+            where: {
+                id
+            }
+        });
+
+        if(!product) {
+            throw new Error('Produto informado não cadastrado!')
+        }
+
+        try {
+            await Products.destroy({
+                where: {
+                    id
+                }
+            })
+        } catch (error: Error | any | unknown) {
+            console.error('Message Error:', error.message)
+            throw error;
+        }
+    }
 }
 
