@@ -2,6 +2,9 @@
 import ProductService from '../services/products';
 import { Request, Response } from 'express';
 
+
+
+
 export default class ProductController {
     static async create (req: Request, res: Response) {
         try {
@@ -14,8 +17,19 @@ export default class ProductController {
     }
 
     static async findAll (req: Request, res: Response) {
-        const product = await ProductService.findAll()
+        const product = await ProductService.getAll()
 
         res.status(200).json(product)
     }
+
+    static async getById (req: Request, res: Response) {
+        try {
+            const {id} = req.params
+            const product = await ProductService.getById(Number(id))
+            res.status(200).json(product)
+        } catch (error: Error | any | unknown) {
+            console.log('Message error: ', error.message)
+            res.status(400).send({message: error.message})
+        }
+        }
 }
