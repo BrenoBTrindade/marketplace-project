@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Products from '../database/models/products';
 import { Optional } from 'sequelize';
-import GenericService from './service';
 
-export default class ProductService extends GenericService<Products> {
+export default class ProductService  {
 
-     static async create(data: Optional<any, string>): Promise<Products> {
+    public async create(data: Optional<any, string>): Promise<Products> {
         const product = await Products.findOne({
             where: {
                 name: data.name
@@ -31,12 +30,12 @@ export default class ProductService extends GenericService<Products> {
         }
       }
 
-     static async getAll(): Promise<Products[]> {
+    public async getAll(): Promise<Products[]> {
           const product = await Products.findAll()
           return product
       }
 
-      static async getById(id: number): Promise<Products | null> {
+    public async getById(id: number): Promise<Products | null> {
         const produto = await Products.findByPk(id);
 
         if (!produto) {

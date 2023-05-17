@@ -3,12 +3,12 @@ import ProductService from '../services/products';
 import { Request, Response } from 'express';
 
 
-
+const productService = new ProductService()
 
 export default class ProductController {
-    static async create (req: Request, res: Response) {
+    public async create (req: Request, res: Response) {
         try {
-            const product = await ProductService.create(req.body)
+            const product = await productService.create(req.body)
             res.status(201).json(product)
         } catch (error: Error | any | unknown) {
             console.log('Message error: ', error.message)
@@ -16,16 +16,16 @@ export default class ProductController {
         }
     }
 
-    static async findAll (req: Request, res: Response) {
-        const product = await ProductService.getAll()
+    public async findAll (req: Request, res: Response) {
+        const product = await productService.getAll()
 
         res.status(200).json(product)
     }
 
-    static async getById (req: Request, res: Response) {
+    public async getById (req: Request, res: Response) {
         try {
             const {id} = req.params
-            const product = await ProductService.getById(Number(id))
+            const product = await productService.getById(Number(id))
             res.status(200).json(product)
         } catch (error: Error | any | unknown) {
             console.log('Message error: ', error.message)
