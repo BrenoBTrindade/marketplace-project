@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import Iproducts from '../interfaces/Iproducts';
 import ProductService from '../services/products';
 import { Request, Response } from 'express';
 
@@ -48,5 +49,15 @@ export default class ProductController {
             console.log('message error: ', error.message);
             res.status(400).send({ message: error.message })
         }
+    }
+
+    public async updateProduct(req: Request, res: Response) {
+        try {
+           const product = await productService.updateProduct(req.body)
+            res.status(200).json(product)
+        } catch (error: Error | any | unknown) {
+            console.log('Message error: ', error.message)
+            res.status(400).send({ message: error.message })
+        }   
     }
 }
