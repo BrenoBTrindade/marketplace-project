@@ -9,5 +9,6 @@ ProductRouter
   .get('/product', productController.findAll)
   .get('/product/:id', productController.getById)
   .delete('/product/:id', productController.deleteById)
+  .put('/product', productController.updateProduct)
 
 export default ProductRouter
