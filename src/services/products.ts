@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Products from '../database/models/products';
-import Iproducts from '../interfaces/Iproducts';
+import { Optional } from 'sequelize';
+import GenericService from './service';
 
-export default class ProductService {
-    static create = async (obj : Iproducts): Promise<Products> => {
+export default class ProductService extends GenericService<Products> {
+
+     static async create(data: Optional<any, string>): Promise<Products> {
         const product = await Products.findOne({
             where: {
-                name: obj.name
+                name: data.name
             }
         })
         if (product) {
@@ -14,23 +17,33 @@ export default class ProductService {
 
         try {
             const newProduct = await Products.create({
-                name: obj.name,
-                description: obj.description,
-                price: obj.price
+                name: data.name,
+                description: data.description,
+                price: data.price
             });
 
             return newProduct;
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         } catch (error: Error | any | unknown) {
             console.error('message error: ' , error.message);
             throw error;
         }
-    }
+      }
 
-    static findAll = async (): Promise<Products[]> => {
-        const products = await Products.findAll()
-        return products
-    }
+     static async getAll(): Promise<Products[]> {
+          const product = await Products.findAll()
+          return product
+      }
+
+      static async getById(id: number): Promise<Products | null> {
+        const produto = await Products.findByPk(id);
+
+        if (!produto) {
+            throw new Error('Produto informado não cadastrado!')
+        }
+
+        return produto;
+    } 
 }
-    
+
