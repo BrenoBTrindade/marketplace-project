@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Iproducts from '../interfaces/Iproducts';
 import ProductService from '../services/products';
 import { Request, Response } from 'express';
 
