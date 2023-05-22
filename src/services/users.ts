@@ -4,6 +4,7 @@ import { Optional} from 'sequelize';
 import Users from '../database/models/users';
 import { hash } from 'bcrypt';
 import *  as uuid from 'uuid'
+import IUsers from '../interfaces/IUsers';
 
 export default class UserService {
     public async create(data: Optional<any, string>): Promise<Users> {
@@ -50,6 +51,30 @@ export default class UserService {
             throw new Error('Usuario informado não cadastrado!') 
         }
         return user;
+      }
+
+      public async update(data: IUsers): Promise<Users> {
+        const user = await Users.findOne({
+            where: {
+                id: data.id
+            }
+        });
+
+        if(!user) {
+            throw new Error('Usuario informado não cadastrado!')
+        }
+      
+        try {
+           user.name = data.name
+            user.email = data.email
+
+            await user.save()
+
+            return user.reload()
+        } catch (error: Error | any | unknown) {
+            throw error   
+        }
+
       }
 
       public async deleteById(id: string): Promise<void> {

@@ -68,7 +68,7 @@ export default class ProductService  {
         }
     }
 
-    public async updateProduct(obj: Iproducts) {
+    public async updateProduct(obj: Iproducts): Promise<Products> {
         const product = await Products.findOne({
             where: {
                 id: obj.id
