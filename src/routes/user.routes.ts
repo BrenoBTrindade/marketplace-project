@@ -6,5 +6,8 @@ const UserRouter = Router()
 
 UserRouter
   .post('/users', userController.create)
+  .get('/users', userController.findAll)
+  .get('/users/:id', userController.findById)
+  .delete('/users/:id', userController.deleteById)
 
 export default UserRouter
