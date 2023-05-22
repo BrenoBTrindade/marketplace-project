@@ -35,5 +35,36 @@ export default class UserService {
         }
       }
 
+      public async getAll(): Promise<Users[]> {
+        const users = await Users.findAll()
+        return users;
+      }
+
+      public async findById(id: string): Promise<Users | null> {
+        const user = await Users.findOne({
+            where: {
+                id
+            }
+        });
+        if (!user) {
+            throw new Error('Usuario informado não cadastrado!') 
+        }
+        return user;
+      }
+
+      public async deleteById(id: string): Promise<void> {
+        await this.findById(id)
+
+        try {
+            await Users.destroy({
+                where: {
+                    id
+                }
+            })
+        } catch (error: Error | any | unknown) {
+            throw error;
+        }
+      }
+
 }
 
