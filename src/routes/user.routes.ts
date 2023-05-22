@@ -9,5 +9,6 @@ UserRouter
   .get('/users', userController.findAll)
   .get('/users/:id', userController.findById)
   .delete('/users/:id', userController.deleteById)
+  .put('/users' , userController.update)
 
 export default UserRouter
